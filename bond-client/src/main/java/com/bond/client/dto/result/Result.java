@@ -25,7 +25,7 @@ public class Result {
         setResultMessage("交易成功");
     }
 
-    public void buildFailedResult(){
+    public void buildFailedResult(String errorCode,String errorMessage){
         setResultMessage("交易失败");
     }
 

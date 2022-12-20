@@ -11,6 +11,7 @@ import com.bond.client.dto.valueobject.BondVO;
 import com.bond.client.dto.valueobject.InvestorVO;
 import com.bond.client.dto.valueobject.TradeDataVO;
 import com.bond.domain.exception.BizException;
+import com.bond.domain.exception.ErrorConstant;
 import com.bond.domain.model.trade.Bond;
 import com.bond.domain.model.trade.Holding;
 import com.bond.domain.model.trade.Inventory;
@@ -42,19 +43,7 @@ public class BondServiceImpl implements BondService {
         SubscribeResult subscribeResult = new SubscribeResult();
         try {
             // step1 输入参数校验 Fluent-Validator + Hibernate-Validator
-            Result result = FluentValidator.checkAll().failOver()
-                    .on(investorVO,new HibernateSupportedValidator<>())
-                    .on(investorVO.getPhoneNumber(),new PhoneNumberValidator())
-                    .doValidate().result(toSimple());
-            if(!result.isSuccess()){
-                StringBuffer stringBuffer = new StringBuffer();
-                for(String error : result.getErrors()){
-                    stringBuffer.append(error);
-                }
-                subscribeResult.setResultType("f");
-                subscribeResult.setResultMessage(stringBuffer.toString());
-                return subscribeResult;
-            }
+            validateParameter(investorVO,bondVO,tradeDataVO);
             // step2 业务验证逻辑
             Bond bond = bondRepository.find(bondVO.getBondCode());
             bond.checkIssueStatus();
@@ -70,9 +59,25 @@ public class BondServiceImpl implements BondService {
             subscribeResult.buildSucceedResult();
 
         } catch (BizException e) {
-            subscribeResult.buildFailedResult();
+            String errorCode = e.getError().getErrorCode();
+            String errorMessage = e.getError().getErrorMessageForCaller();
+            subscribeResult.buildFailedResult(errorCode,errorMessage);
             return subscribeResult;
         }
         return subscribeResult;
+    }
+
+    private void validateParameter(InvestorVO investorVO, BondVO bondVO, TradeDataVO tradeDataVO){
+        Result result = FluentValidator.checkAll().failOver()
+                .on(investorVO,new HibernateSupportedValidator<>())
+                .on(investorVO.getPhoneNumber(),new PhoneNumberValidator())
+                .doValidate().result(toSimple());
+        if(!result.isSuccess()){
+            StringBuffer stringBuffer = new StringBuffer();
+            for(String error : result.getErrors()){
+                stringBuffer.append(error);
+            }
+            throw BizException.buildBizException (ErrorConstant.ERR_VALIDATION_PARAMETER);
+        }
     }
 }

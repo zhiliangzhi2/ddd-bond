@@ -2,6 +2,7 @@ package com.bond.domain.model.trade.ability.facade;
 
 import com.bond.domain.model.trade.Order;
 import com.bond.domain.model.trade.PaymentAccount;
+import com.bond.domain.model.trade.type.PaymentResult;
 
 /**
  * @author anzj
@@ -9,6 +10,6 @@ import com.bond.domain.model.trade.PaymentAccount;
  */
 public interface PaymentFacade {
 
-    String Pay(Order order, PaymentAccount sourceAccount, PaymentAccount targetAccount);
+     PaymentResult Pay(Order order, PaymentAccount sourceAccount, PaymentAccount targetAccount);
 
 }

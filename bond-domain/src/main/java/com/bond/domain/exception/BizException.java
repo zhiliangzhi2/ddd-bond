@@ -8,15 +8,40 @@ import com.sun.xml.internal.bind.v2.model.runtime.RuntimeNonElement;
  */
 public class BizException extends RuntimeException {
 
-    private String message;
+    private Error error;
     private Throwable t;
 
-    public BizException(String message){
-        this.message = message;
+    public BizException(Error error){
+        this.error = error;
     }
 
-    public BizException(String message,Throwable throwable){
-        this.message = message;
+    public BizException(Error error,Throwable throwable){
+        this.error = error;
         this.t = throwable;
+    }
+
+    public static BizException buildBizException(Error error){
+        return new BizException(error);
+    }
+
+    public static BizException buildBizException(Error error,Throwable throwable){
+        return new BizException(error,throwable);
+    }
+
+
+    public Error getError() {
+        return error;
+    }
+
+    public void setError(Error error) {
+        this.error = error;
+    }
+
+    public Throwable getT() {
+        return t;
+    }
+
+    public void setT(Throwable t) {
+        this.t = t;
     }
 }
