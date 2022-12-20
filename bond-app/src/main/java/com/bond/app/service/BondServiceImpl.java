@@ -23,6 +23,10 @@ import org.springframework.stereotype.Service;
 import static com.baidu.unbiz.fluentvalidator.ResultCollectors.toSimple;
 
 /**
+ * todo：需求：认购接口定义
+ * 输入：
+ * 输出：
+ * 错误码：
  * 应用服务层:1、逻辑错误异常等统一处理  2、业务主逻辑步骤
  */
 @Service
