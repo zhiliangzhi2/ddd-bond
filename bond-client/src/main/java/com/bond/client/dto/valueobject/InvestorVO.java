@@ -12,6 +12,11 @@ public class InvestorVO {
      */
     @NotNull(message = "姓名不能为空")
     private String name;
+    /**
+     * 身份证号码
+     */
+    private String idCardNO;
+
 
     /**
      * 电话号码
@@ -33,5 +38,13 @@ public class InvestorVO {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getIdCardNO() {
+        return idCardNO;
+    }
+
+    public void setIdCardNO(String idCardNO) {
+        this.idCardNO = idCardNO;
     }
 }
