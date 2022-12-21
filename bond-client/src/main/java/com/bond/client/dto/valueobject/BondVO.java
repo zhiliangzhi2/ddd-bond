@@ -16,7 +16,6 @@ public class BondVO {
      * 债券名称
      */
     private String bondName;
-
     /**
      * 债券发行人
      */

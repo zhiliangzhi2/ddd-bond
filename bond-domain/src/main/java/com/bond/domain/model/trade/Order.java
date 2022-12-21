@@ -8,6 +8,7 @@ import java.math.BigDecimal;
  */
 public class Order {
 
+    private String orderId;
     private String investorName;
     private String investorIdCardNo;
     private String bondCode;
@@ -44,5 +45,13 @@ public class Order {
 
     public void setOrderAmount(BigDecimal orderAmount) {
         this.orderAmount = orderAmount;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 }

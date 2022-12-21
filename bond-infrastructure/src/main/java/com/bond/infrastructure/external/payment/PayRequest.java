@@ -8,12 +8,21 @@ import java.math.BigDecimal;
  */
 public class PayRequest {
 
+    private String orderId;
     private String sourceAccount;//付款账户
     private String targetAccount;//收款账户
     private BigDecimal amount;//支付金额
 
     public String getSourceAccount() {
         return sourceAccount;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public void setSourceAccount(String sourceAccount) {

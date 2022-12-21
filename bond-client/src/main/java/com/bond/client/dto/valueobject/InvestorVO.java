@@ -16,8 +16,6 @@ public class InvestorVO {
      * 身份证号码
      */
     private String idCardNO;
-
-
     /**
      * 电话号码
      */

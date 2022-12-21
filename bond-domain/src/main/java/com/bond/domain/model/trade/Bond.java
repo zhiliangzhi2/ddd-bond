@@ -1,6 +1,7 @@
 package com.bond.domain.model.trade;
 
 import com.bond.domain.exception.BizException;
+import com.bond.domain.exception.ErrorConstant;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,7 +26,7 @@ public class Bond {
         String today = new SimpleDateFormat("yyyyMMdd").format(new Date());
 
         if(Long.parseLong(today) < Long.parseLong(issueStartDate) || Long.parseLong(issueEndDate) < Long.parseLong(today)){
-            throw new BizException("债权部不在发行期内");
+            throw new BizException(ErrorConstant.ERR_VALIDATION_NOT_RELEASING);
         }
     }
 

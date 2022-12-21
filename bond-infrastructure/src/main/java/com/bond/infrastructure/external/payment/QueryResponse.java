@@ -2,21 +2,13 @@ package com.bond.infrastructure.external.payment;
 
 /**
  * @author anzj
- * @date 2022/12/20 17:38
+ * @date 2022/12/21 10:54
  */
-public class PayResult {
+public class QueryResponse {
 
-    private String type;
     private String code;
+
     private String message;
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public String getCode() {
         return code;
