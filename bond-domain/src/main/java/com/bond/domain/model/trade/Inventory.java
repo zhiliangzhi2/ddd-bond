@@ -20,4 +20,20 @@ public class Inventory {
         remainQuota -= faceValue;
     }
 
+
+    public String getBondCode() {
+        return bondCode;
+    }
+
+    public void setBondCode(String bondCode) {
+        this.bondCode = bondCode;
+    }
+
+    public Long getRemainQuota() {
+        return remainQuota;
+    }
+
+    public void setRemainQuota(Long remainQuota) {
+        this.remainQuota = remainQuota;
+    }
 }

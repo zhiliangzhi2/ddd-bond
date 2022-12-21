@@ -7,8 +7,9 @@ import com.bond.client.dto.result.SubscribeResult;
 import com.bond.client.dto.valueobject.BondVO;
 import com.bond.client.dto.valueobject.InvestorVO;
 import com.bond.client.dto.valueobject.TradeDataVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,12 +23,15 @@ import javax.swing.table.TableRowSorter;
 @RestController
 public class BondController {
 
+    private static final Logger logger = LoggerFactory.getLogger(BondController.class);
+
     @Autowired
     private BondService bondService;
 
     @PostMapping("/bond/subscribe")
     @ResponseBody
     public SubscribeResponse subscription(SubscribeRequest request){
+        logger.info("认购输入参数[{}]",request);
         SubscribeResponse response = new SubscribeResponse();
 
         BondVO bondVO = request.getBondVO();
@@ -36,6 +40,7 @@ public class BondController {
 
         SubscribeResult result = bondService.subscribe(investorVO,bondVO,tradeDataVO);
 
+        logger.info("认购响应参数",response);
         return response;
     }
 }

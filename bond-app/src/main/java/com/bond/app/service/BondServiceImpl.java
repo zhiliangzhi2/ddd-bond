@@ -18,6 +18,8 @@ import com.bond.domain.model.trade.Inventory;
 import com.bond.domain.model.trade.repository.BondRepository;
 import com.bond.domain.model.trade.repository.HoldingRepository;
 import com.bond.domain.model.trade.repository.InventoryRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,8 @@ import static com.baidu.unbiz.fluentvalidator.ResultCollectors.toSimple;
  */
 @Service
 public class BondServiceImpl implements BondService {
+
+    private static final Logger logger = LoggerFactory.getLogger(BondServiceImpl.class);
 
     @Autowired
     private BondRepository bondRepository;
@@ -44,21 +48,31 @@ public class BondServiceImpl implements BondService {
         try {
             // step1 输入参数校验 Fluent-Validator + Hibernate-Validator
             validateParameter(investorVO,bondVO,tradeDataVO);
+            logger.info("输入参数验证完成");
             // step2 业务验证逻辑
             Bond bond = bondRepository.find(bondVO.getBondCode());
             bond.checkIssueStatus();
+            logger.info("债券[{}]发行期验证完成,在发行期",bond.getBondCode());
             // step3 业务执行逻辑 3.1 第三方服务调用ACL 3.2 repository调用存储服务
             Inventory inventory = inventoryRepository.find(bondVO.getBondCode());
             inventory.reduce(tradeDataVO.getFaceValue());
-
+            logger.info("债券库存扣减完成剩余[{}]",inventory.getRemainQuota());
             Holding holding = holdingRepository.find(investorVO.getName(),bondVO.getBondCode());
             holding.add(tradeDataVO.getFaceValue());
-
+            logger.info("投资人持仓增加成功,目前持有额度[{}]",holding.getHoldQuota());
             subscribeTransaction.transaction(holding,inventory);
+            logger.info("支付完成,交易成功！");
             // step4 构建返回信息
             subscribeResult.buildSucceedResult();
 
         } catch (BizException e) {
+            if(e.getCause()!=null){
+                //业务验证出错
+                logger.warn(e.getError().getErrorMessageForOperator());
+            }else{
+                //系统环境出错
+                logger.error(e.getError().getErrorMessageForOperator());
+            }
             String errorCode = e.getError().getErrorCode();
             String errorMessage = e.getError().getErrorMessageForCaller();
             subscribeResult.buildFailedResult(errorCode,errorMessage);
