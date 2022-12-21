@@ -91,7 +91,7 @@ public class BondServiceImpl implements BondService {
             for(String error : result.getErrors()){
                 stringBuffer.append(error);
             }
-            throw BizException.buildBizException (ErrorConstant.ERR_VALIDATION_PARAMETER);
+            throw BizException.buildBizException (ErrorConstant.ERR_VALIDATION_PARAMETER.buildErrorMessageForCaller(stringBuffer.toString()));
         }
     }
 }
