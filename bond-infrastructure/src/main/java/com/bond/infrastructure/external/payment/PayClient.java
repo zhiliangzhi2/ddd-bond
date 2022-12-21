@@ -22,7 +22,7 @@ public class PayClient {
 
     public PayResponse toPay(PayRequest request)throws RemoteException{
         if(!PAY_IP.equals(ip)){
-            throw new RemoteException("远程连接被拒绝",new ConnectException());
+            throw new RemoteException("远程连接被拒绝",new ConnectException("Connection refused"));
         }
         return new PayResponse();
     }

@@ -21,7 +21,7 @@ public class QueryClient {
     public QueryResponse toQuery(QueryRequest request)throws RemoteException{
 
         if(!QUERY_IP.equals(ip)){
-            throw new RemoteException("远程连接被拒绝",new ConnectException());
+            throw new RemoteException("远程连接被拒绝",new ConnectException("Connection refused"));
         }
         return new QueryResponse();
     }
