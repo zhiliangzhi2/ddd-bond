@@ -58,6 +58,7 @@ public class PaymentFacadeImpl implements PaymentFacade {
             QueryRequest request = new QueryRequest();
             request.setOrderId(order.getOrderId());
             QueryResponse response = client.toQuery(request);
+            result = new PaymentResult();
             if(Constant.PAY_SUCCEED.equals(response.getCode())){
                 result.setResultCode(PaymentResult.SUCCESS_CODE);
             }else{
